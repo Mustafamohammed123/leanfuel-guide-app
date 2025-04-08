@@ -12,10 +12,12 @@ import { useSubscription } from "@/contexts/SubscriptionContext";
 
 interface FoodLogEntryProps {
   onAddFood: (food: FoodItem) => void;
+  isPremium?: boolean;
 }
 
-const FoodLogEntry: React.FC<FoodLogEntryProps> = ({ onAddFood }) => {
-  const { isPremium, setIsModalOpen } = useSubscription();
+const FoodLogEntry: React.FC<FoodLogEntryProps> = ({ onAddFood, isPremium: propIsPremium }) => {
+  const { isPremium: contextIsPremium, setIsModalOpen } = useSubscription();
+  const isPremium = propIsPremium !== undefined ? propIsPremium : contextIsPremium;
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newFood, setNewFood] = useState<FoodItem>({
     id: "",

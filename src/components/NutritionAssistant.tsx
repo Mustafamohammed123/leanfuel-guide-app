@@ -14,8 +14,13 @@ interface Message {
   timestamp: Date;
 }
 
-const NutritionAssistant: React.FC = () => {
-  const { isPremium, setIsModalOpen } = useSubscription();
+interface NutritionAssistantProps {
+  isPremium?: boolean;
+}
+
+const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium: propIsPremium }) => {
+  const { isPremium: contextIsPremium, setIsModalOpen } = useSubscription();
+  const isPremium = propIsPremium !== undefined ? propIsPremium : contextIsPremium;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");

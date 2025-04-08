@@ -3,8 +3,20 @@ import React from "react";
 import { Star } from "lucide-react";
 import { useSubscription } from "@/contexts/SubscriptionContext";
 
-const PremiumBanner: React.FC = () => {
+interface PremiumBannerProps {
+  onUpgrade?: () => void;
+}
+
+const PremiumBanner: React.FC<PremiumBannerProps> = ({ onUpgrade }) => {
   const { setIsModalOpen } = useSubscription();
+
+  const handleUpgradeClick = () => {
+    if (onUpgrade) {
+      onUpgrade();
+    } else {
+      setIsModalOpen(true);
+    }
+  };
 
   return (
     <div className="bg-gradient-to-r from-leanfuel-accent to-leanfuel-primary rounded-lg shadow-md p-4 mt-6">
@@ -18,7 +30,7 @@ const PremiumBanner: React.FC = () => {
             Get specialized meal plans, detailed nutrition guides, and personalized recipes.
           </p>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleUpgradeClick}
             className="bg-white text-leanfuel-accent font-medium text-sm py-1.5 px-3 rounded-lg"
           >
             Upgrade Now
