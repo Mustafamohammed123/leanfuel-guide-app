@@ -12,6 +12,7 @@ import MealPlanPage from "./pages/MealPlanPage";
 import MealTrackingPage from "./pages/MealTrackingPage";
 import GroceryPage from "./pages/GroceryPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProgressPage from "./pages/ProgressPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import NotFound from "./pages/NotFound";
 
@@ -34,6 +35,7 @@ const App: React.FC = () => {
               <Route path="/meal-tracking" element={<MealTrackingPage />} />
               <Route path="/grocery" element={<GroceryPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/progress" element={<ProgressPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
