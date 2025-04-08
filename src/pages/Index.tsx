@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CalorieCounter from "@/components/CalorieCounter";
 import ProgressChart from "@/components/ProgressChart";
 import MealItem from "@/components/MealItem";
@@ -7,6 +8,7 @@ import SubscriptionBanner from "@/components/SubscriptionBanner";
 import WeightInput from "@/components/WeightInput";
 import BottomNavigation from "@/components/BottomNavigation";
 import { toast } from "sonner";
+import { useOnboarding } from "@/contexts/OnboardingContext";
 
 // Mock data - would come from a real API in production
 const mockWeightData = [
@@ -47,10 +49,29 @@ const mockMealSuggestions = [
 ];
 
 const HomePage = () => {
-  const [weightGoal] = useState(75);
-  const [calorieGoal] = useState(2000);
-  const [caloriesConsumed] = useState(1250);
+  const { data: onboardingData } = useOnboarding();
+  const navigate = useNavigate();
+  const [weightGoal, setWeightGoal] = useState(75);
+  const [calorieGoal, setCalorieGoal] = useState(2000);
+  const [caloriesConsumed, setCaloriesConsumed] = useState(1250);
   const [weightData, setWeightData] = useState(mockWeightData);
+  
+  // Check if onboarding is completed
+  useEffect(() => {
+    if (!onboardingData.completed) {
+      // Redirect to onboarding if not completed
+      navigate("/onboarding");
+    } else {
+      // Use onboarding data to personalize the experience
+      if (onboardingData.weightGoal) {
+        setWeightGoal(onboardingData.weightGoal);
+      }
+      
+      if (onboardingData.calorieGoal) {
+        setCalorieGoal(onboardingData.calorieGoal);
+      }
+    }
+  }, [onboardingData, navigate]);
   
   const handleWeightSave = (weight: number) => {
     const today = new Date().toISOString().split("T")[0];
@@ -82,10 +103,15 @@ const HomePage = () => {
     }
   };
 
+  // If onboarding is not completed, don't render the full page
+  if (!onboardingData.completed) {
+    return null;
+  }
+
   return (
     <div className="leanfuel-container pb-20">
       <header className="pt-8 pb-4">
-        <h1 className="text-2xl font-bold text-leanfuel-dark">Welcome to LeanFuel</h1>
+        <h1 className="text-2xl font-bold text-leanfuel-dark">Welcome, {onboardingData.name || "User"}!</h1>
         <p className="text-gray-500">Your journey to a healthier you</p>
       </header>
       
@@ -98,7 +124,10 @@ const HomePage = () => {
       </div>
       
       <div className="my-4">
-        <WeightInput onSave={handleWeightSave} currentWeight={weightData[weightData.length - 1]?.weight} />
+        <WeightInput 
+          onSave={handleWeightSave} 
+          currentWeight={weightData[weightData.length - 1]?.weight} 
+        />
       </div>
       
       <div className="mt-6 mb-4">
