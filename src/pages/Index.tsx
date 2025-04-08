@@ -7,6 +7,7 @@ import MealItem from "@/components/MealItem";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
 import WeightInput from "@/components/WeightInput";
 import BottomNavigation from "@/components/BottomNavigation";
+import MealTracker from "@/components/meals/MealTracker";
 import { toast } from "sonner";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
@@ -55,6 +56,7 @@ const HomePage = () => {
   const [calorieGoal, setCalorieGoal] = useState(2000);
   const [caloriesConsumed, setCaloriesConsumed] = useState(1250);
   const [weightData, setWeightData] = useState(mockWeightData);
+  const [isPremiumUser, setIsPremiumUser] = useState(false);
   
   // Check if onboarding is completed
   useEffect(() => {
@@ -70,6 +72,10 @@ const HomePage = () => {
       if (onboardingData.calorieGoal) {
         setCalorieGoal(onboardingData.calorieGoal);
       }
+      
+      // Check premium status
+      const premiumStatus = localStorage.getItem('isPremiumUser') === 'true';
+      setIsPremiumUser(premiumStatus);
     }
   }, [onboardingData, navigate]);
   
@@ -87,11 +93,14 @@ const HomePage = () => {
   };
   
   const handleUpgrade = () => {
-    toast("Upgrade feature coming soon!");
+    // For demo purposes, set premium status
+    localStorage.setItem('isPremiumUser', 'true');
+    setIsPremiumUser(true);
+    toast.success("You're now a premium user!");
   };
   
   const handleMealClick = (meal: any) => {
-    if (meal.isPremium) {
+    if (meal.isPremium && !isPremiumUser) {
       toast("This is a premium meal. Upgrade to unlock!", {
         action: {
           label: "Upgrade",
@@ -115,7 +124,11 @@ const HomePage = () => {
         <p className="text-gray-500">Your journey to a healthier you</p>
       </header>
       
-      <SubscriptionBanner onUpgrade={handleUpgrade} />
+      {!isPremiumUser && <SubscriptionBanner onUpgrade={handleUpgrade} />}
+      
+      <div className="my-4">
+        <MealTracker isPremium={isPremiumUser} />
+      </div>
       
       <CalorieCounter dailyGoal={calorieGoal} consumed={caloriesConsumed} />
       
