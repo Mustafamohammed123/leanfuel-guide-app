@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import BottomNavigation from "@/components/BottomNavigation";
 import NutritionAssistant from "@/components/NutritionAssistant";
-import { Settings, LogOut, CreditCard, Award, ChevronRight } from "lucide-react";
+import { Settings, LogOut, CreditCard, Award, ChevronRight, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { useSubscription } from "@/contexts/SubscriptionContext";
 
@@ -98,6 +98,14 @@ const ProfilePage = () => {
           </div>
           <ChevronRight size={18} className="text-gray-400" />
         </button>
+        
+        <Link to="/admin" className="w-full flex items-center justify-between p-4 border-b">
+          <div className="flex items-center">
+            <Shield size={20} className="text-gray-500 mr-3" />
+            <span>Admin Dashboard</span>
+          </div>
+          <ChevronRight size={18} className="text-gray-400" />
+        </Link>
         
         <button 
           className="w-full flex items-center justify-between p-4 text-red-500"
