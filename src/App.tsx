@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import Index from "./pages/Index";
 import MealsPage from "./pages/MealsPage";
+import MealPlanPage from "./pages/MealPlanPage";
 import GroceryPage from "./pages/GroceryPage";
 import ProfilePage from "./pages/ProfilePage";
 import OnboardingPage from "./pages/OnboardingPage";
@@ -28,6 +29,7 @@ const App: React.FC = () => {
               <Route path="/onboarding" element={<OnboardingPage />} />
               <Route path="/" element={<Index />} />
               <Route path="/meals" element={<MealsPage />} />
+              <Route path="/meal-plans" element={<MealPlanPage />} />
               <Route path="/grocery" element={<GroceryPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="*" element={<NotFound />} />
