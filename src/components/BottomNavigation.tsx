@@ -1,6 +1,7 @@
+
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, Utensils, CalendarCheck, User, LineChart } from "lucide-react";
+import { Home, Utensils, CalendarCheck, User, LineChart, BookOpen } from "lucide-react";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
@@ -34,6 +35,16 @@ const BottomNavigation = () => {
         >
           <CalendarCheck size={24} />
           <span className="text-xs mt-1">Track</span>
+        </button>
+        
+        <button 
+          onClick={() => navigate("/learning")}
+          className={`flex flex-col items-center p-2 ${
+            location.pathname.includes("/learning") ? "text-leanfuel-primary" : "text-gray-500"
+          }`}
+        >
+          <BookOpen size={24} />
+          <span className="text-xs mt-1">Learn</span>
         </button>
         
         <button 

@@ -9,6 +9,7 @@ import WeightInput from "@/components/WeightInput";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealTracker from "@/components/meals/MealTracker";
 import NutritionAssistant from "@/components/NutritionAssistant";
+import { BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
@@ -166,6 +167,21 @@ const HomePage = () => {
             onClick={() => handleMealClick(meal)}
           />
         ))}
+      </div>
+      
+      <div className="mb-8">
+        <div 
+          onClick={() => navigate("/learning")}
+          className="p-4 bg-gradient-to-r from-leanfuel-secondary to-blue-50 rounded-lg flex items-center cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+        >
+          <div className="p-2 bg-white rounded-full mr-3">
+            <BookOpen className="text-leanfuel-primary h-5 w-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-leanfuel-dark">Learning Hub</h3>
+            <p className="text-sm text-gray-600">Explore nutrition articles and guides</p>
+          </div>
+        </div>
       </div>
       
       <BottomNavigation />
