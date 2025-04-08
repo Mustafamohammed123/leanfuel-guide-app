@@ -16,6 +16,7 @@ import ProgressPage from "./pages/ProgressPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import LearningHubPage from "./pages/LearningHubPage";
 import ArticleDetailPage from "./pages/ArticleDetailPage";
+import NotificationsPage from "./pages/NotificationsPage";
 import NotFound from "./pages/NotFound";
 
 // Create a query client instance
@@ -40,6 +41,7 @@ const App: React.FC = () => {
               <Route path="/progress" element={<ProgressPage />} />
               <Route path="/learning" element={<LearningHubPage />} />
               <Route path="/learning/:articleId" element={<ArticleDetailPage />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CalorieCounter from "@/components/CalorieCounter";
@@ -9,11 +8,11 @@ import WeightInput from "@/components/WeightInput";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealTracker from "@/components/meals/MealTracker";
 import NutritionAssistant from "@/components/NutritionAssistant";
+import NotificationsWidget from "@/components/NotificationsWidget";
 import { BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
-// Mock data - would come from a real API in production
 const mockWeightData = [
   { date: "2025-03-01", weight: 82.5 },
   { date: "2025-03-05", weight: 81.8 },
@@ -60,13 +59,10 @@ const HomePage = () => {
   const [weightData, setWeightData] = useState(mockWeightData);
   const [isPremiumUser, setIsPremiumUser] = useState(false);
   
-  // Check if onboarding is completed
   useEffect(() => {
     if (!onboardingData.completed) {
-      // Redirect to onboarding if not completed
       navigate("/onboarding");
     } else {
-      // Use onboarding data to personalize the experience
       if (onboardingData.weightGoal) {
         setWeightGoal(onboardingData.weightGoal);
       }
@@ -75,7 +71,6 @@ const HomePage = () => {
         setCalorieGoal(onboardingData.calorieGoal);
       }
       
-      // Check premium status
       const premiumStatus = localStorage.getItem('isPremiumUser') === 'true';
       setIsPremiumUser(premiumStatus);
     }
@@ -85,7 +80,6 @@ const HomePage = () => {
     const today = new Date().toISOString().split("T")[0];
     const newEntry = { date: today, weight };
     
-    // Update weight data
     const updatedData = [...weightData, newEntry].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     );
@@ -95,7 +89,6 @@ const HomePage = () => {
   };
   
   const handleUpgrade = () => {
-    // For demo purposes, set premium status
     localStorage.setItem('isPremiumUser', 'true');
     setIsPremiumUser(true);
     toast.success("You're now a premium user!");
@@ -114,7 +107,6 @@ const HomePage = () => {
     }
   };
 
-  // If onboarding is not completed, don't render the full page
   if (!onboardingData.completed) {
     return null;
   }
@@ -133,6 +125,10 @@ const HomePage = () => {
       </div>
       
       <CalorieCounter dailyGoal={calorieGoal} consumed={caloriesConsumed} />
+      
+      <div className="my-4">
+        <NotificationsWidget />
+      </div>
       
       <div className="my-4">
         <ProgressChart data={weightData} weightGoal={weightGoal} />
