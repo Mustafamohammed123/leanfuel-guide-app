@@ -23,8 +23,8 @@ const ProgressChart = ({ data, weightGoal }: ProgressChartProps) => {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-2 border border-gray-200 rounded shadow-md">
-          <p className="text-sm">{`${label}: ${payload[0].value}kg`}</p>
+        <div className="bg-white p-3 border border-leanfuel-light rounded-lg shadow-md">
+          <p className="text-sm font-medium">{`${label}: ${payload[0].value}kg`}</p>
         </div>
       );
     }
@@ -32,9 +32,9 @@ const ProgressChart = ({ data, weightGoal }: ProgressChartProps) => {
   };
 
   return (
-    <div className="leanfuel-card p-4">
-      <h3 className="text-lg font-bold mb-3">Weight Progress</h3>
-      <div className="h-40">
+    <div className="leanfuel-card bg-leanfuel-light/30 p-4">
+      <h3 className="text-lg font-bold mb-3 text-leanfuel-dark">Weight Progress</h3>
+      <div className="h-40 bg-white p-2 rounded-lg">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
@@ -50,17 +50,17 @@ const ProgressChart = ({ data, weightGoal }: ProgressChartProps) => {
             <Line
               type="monotone"
               dataKey="weight"
-              stroke="#4CAF50"
+              stroke="#33C3F0"
               strokeWidth={2}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
+              dot={{ r: 3, fill: "#33C3F0" }}
+              activeDot={{ r: 5, fill: "#33C3F0" }}
             />
             {/* Optional: Add goal weight line */}
             {weightGoal > 0 && (
               <Line
                 type="monotone"
                 dataKey={() => weightGoal}
-                stroke="#26A69A"
+                stroke="#4CAF50"
                 strokeDasharray="5 5"
                 strokeWidth={1}
                 dot={false}

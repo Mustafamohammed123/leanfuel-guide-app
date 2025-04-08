@@ -28,14 +28,14 @@ const PremiumFeature = ({
   return (
     <div className="relative overflow-hidden rounded-lg border">
       <div className="absolute inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center">
-        <div className="text-center p-6">
-          <div className="bg-white rounded-full p-3 inline-block mb-3">
-            <Lock className="h-6 w-6 text-leanfuel-primary" />
+        <div className="text-center p-6 flex flex-col items-center">
+          <div className="bg-white rounded-full p-3 inline-block mb-3 shadow-lg">
+            <Lock className="h-6 w-6 text-leanfuel-accent" />
           </div>
           <h3 className="text-white text-lg font-bold mb-2">{message}</h3>
           <Button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-white text-leanfuel-primary hover:bg-gray-100"
+            className="bg-white text-leanfuel-accent hover:bg-leanfuel-light"
           >
             Upgrade to Premium
           </Button>

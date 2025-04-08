@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --foreground: 200 15% 15%;
 
     --card: 0 0% 100%;
@@ -20,20 +20,20 @@
     --secondary: 123 41% 76%;
     --secondary-foreground: 200 15% 15%;
 
-    --muted: 0 0% 96%;
+    --muted: 210 40% 96%;
     --muted-foreground: 200 15% 40%;
 
-    --accent: 174 60% 41%;
+    --accent: 199 84% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
     --ring: 122 39% 49%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
 }
 
@@ -53,7 +53,7 @@
   }
 
   .leanfuel-card {
-    @apply bg-white rounded-xl shadow-md overflow-hidden p-4 transition-all duration-200;
+    @apply bg-white rounded-xl shadow-sm overflow-hidden p-4 transition-all duration-200 border border-leanfuel-light/60;
   }
 
   .leanfuel-btn-primary {
@@ -61,10 +61,32 @@
   }
 
   .leanfuel-btn-secondary {
-    @apply bg-leanfuel-secondary text-leanfuel-dark font-medium py-2 px-4 rounded-lg hover:bg-opacity-90 transition-all duration-200;
+    @apply bg-leanfuel-light text-leanfuel-accent font-medium py-2 px-4 rounded-lg hover:bg-opacity-90 transition-all duration-200;
   }
 
   .leanfuel-input {
-    @apply bg-leanfuel-gray border border-leanfuel-gray rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-leanfuel-primary;
+    @apply bg-leanfuel-gray border border-leanfuel-light rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-leanfuel-accent;
+  }
+  
+  .progress-circle {
+    @apply rounded-full flex items-center justify-center;
+    background: conic-gradient(var(--circle-color) var(--percentage), #e9e9e9 0);
+  }
+  
+  .locked-premium {
+    @apply relative overflow-hidden;
+  }
+  
+  .locked-premium::after {
+    @apply absolute inset-0 bg-black/40 flex items-center justify-center;
+    content: "";
+  }
+  
+  .mint-card {
+    @apply bg-leanfuel-mint rounded-lg p-4 border border-leanfuel-secondary/30;
+  }
+  
+  .blue-card {
+    @apply bg-leanfuel-light rounded-lg p-4 border border-leanfuel-accent/30;
   }
 }

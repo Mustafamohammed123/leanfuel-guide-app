@@ -1,5 +1,5 @@
 
-import { Clock, Utensils, ChevronRight } from "lucide-react";
+import { Clock, Utensils, ChevronRight, Lock } from "lucide-react";
 
 interface MealItemProps {
   title: string;
@@ -20,7 +20,7 @@ const MealItem = ({
 }: MealItemProps) => {
   return (
     <div 
-      className="leanfuel-card flex mb-3 hover:shadow-lg cursor-pointer"
+      className="leanfuel-card flex mb-3 hover:shadow-md cursor-pointer transition-all duration-300 border border-leanfuel-light hover:border-leanfuel-accent/30"
       onClick={onClick}
     >
       <div className="flex-shrink-0 w-24 h-24 overflow-hidden rounded-lg">
@@ -30,8 +30,9 @@ const MealItem = ({
           className="h-full w-full object-cover"
         />
         {isPremium && (
-          <div className="absolute top-0 right-0 bg-amber-500 text-white text-xs px-1 rounded-bl">
-            PRO
+          <div className="absolute top-1 right-1 bg-leanfuel-accent/90 text-white text-xs px-2 py-1 rounded-full flex items-center">
+            <Lock size={10} className="mr-1" />
+            <span>PRO</span>
           </div>
         )}
       </div>
@@ -46,7 +47,7 @@ const MealItem = ({
           </div>
         </div>
         <div className="self-end mt-2">
-          <ChevronRight size={16} className="text-gray-400" />
+          <ChevronRight size={16} className="text-leanfuel-accent" />
         </div>
       </div>
     </div>

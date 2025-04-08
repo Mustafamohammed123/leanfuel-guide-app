@@ -63,14 +63,15 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// LeanFuel custom colors
+				// LeanFuel custom colors - updated with new palette
 				leanfuel: {
-					primary: '#4CAF50',
-					secondary: '#81C784',
-					accent: '#26A69A',
-					light: '#B3E5FC',
-					gray: '#F5F5F5',
-					dark: '#263238'
+					primary: '#4CAF50',  // We'll keep this as our primary action color
+					secondary: '#81C784', // Keeping secondary green
+					accent: '#33C3F0',    // Updated to light blue for accent
+					light: '#D3E4FD',     // Light blue for backgrounds
+					mint: '#F2FCE2',      // Mint green for cards/sections
+					gray: '#F1F0FB',      // Soft gray for subtle elements
+					dark: '#222222'       // Dark color for text
 				}
 			},
 			borderRadius: {
