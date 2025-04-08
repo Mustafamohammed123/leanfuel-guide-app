@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import BottomNavigation from "@/components/BottomNavigation";
 import NutritionAssistant from "@/components/NutritionAssistant";
 import { Settings, LogOut, CreditCard, Award, ChevronRight } from "lucide-react";
@@ -82,13 +83,13 @@ const ProfilePage = () => {
       )}
 
       <div className="leanfuel-card p-0 mb-4">
-        <button className="w-full flex items-center justify-between p-4 border-b">
+        <Link to="/settings" className="w-full flex items-center justify-between p-4 border-b">
           <div className="flex items-center">
             <Settings size={20} className="text-gray-500 mr-3" />
             <span>Settings</span>
           </div>
           <ChevronRight size={18} className="text-gray-400" />
-        </button>
+        </Link>
         
         <button className="w-full flex items-center justify-between p-4 border-b">
           <div className="flex items-center">
