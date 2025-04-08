@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs } from "@/components/ui/tabs";
-import { ArrowLeft, Heart, Share2 } from "lucide-react";
+import { ArrowLeft, Heart, Share2, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import DayTabs from "@/components/meals/DayTabs";
 import DayContent from "@/components/meals/DayContent";
 import { MealPlan } from "@/components/meals/MealPlanCard";
 import { MEAL_PLAN_DATA } from "@/utils/mealPlanUtils";
+import GroceryListBuilder from "@/components/grocery/GroceryListBuilder";
 
 interface MealPlanDetailsProps {
   plan: MealPlan;
@@ -17,6 +18,7 @@ interface MealPlanDetailsProps {
 const MealPlanDetails: React.FC<MealPlanDetailsProps> = ({ plan, onBack }) => {
   const [activeDay, setActiveDay] = useState("day1");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [showGroceryBuilder, setShowGroceryBuilder] = useState(false);
   
   const mealPlanData = MEAL_PLAN_DATA[plan.id] || [];
   
@@ -36,6 +38,29 @@ const MealPlanDetails: React.FC<MealPlanDetailsProps> = ({ plan, onBack }) => {
   const handleSaveMeal = (mealName: string) => {
     toast(`Added ${mealName} to grocery list`);
   };
+
+  const handleGenerateGroceryList = () => {
+    if (plan.isPremium) {
+      // Check if user is premium, otherwise show upgrade message
+      const isPremiumUser = localStorage.getItem('isPremiumUser') === 'true';
+      
+      if (!isPremiumUser) {
+        toast("Premium meal plans require a subscription", {
+          action: {
+            label: "Upgrade",
+            onClick: () => toast("Upgrade feature coming soon!")
+          }
+        });
+        return;
+      }
+    }
+    
+    setShowGroceryBuilder(true);
+  };
+  
+  if (showGroceryBuilder) {
+    return <GroceryListBuilder plan={plan} onBack={() => setShowGroceryBuilder(false)} />;
+  }
   
   return (
     <div className="leanfuel-container pb-20">
@@ -68,6 +93,14 @@ const MealPlanDetails: React.FC<MealPlanDetailsProps> = ({ plan, onBack }) => {
           <div>{plan.calories} calories</div>
           <div>{plan.duration}</div>
         </div>
+        
+        <Button 
+          className="mt-3 gap-2" 
+          onClick={handleGenerateGroceryList}
+        >
+          <ShoppingBag size={16} />
+          Generate Grocery List
+        </Button>
       </header>
       
       <Tabs value={activeDay} onValueChange={handleDayChange} className="mb-6">
