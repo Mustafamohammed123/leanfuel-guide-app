@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { format, subDays } from 'date-fns';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Chart, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface CalorieHistoryProps {
@@ -48,20 +48,23 @@ const CalorieHistory = ({ isPremium }: CalorieHistoryProps) => {
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
+                    const calorieValue = payload[0].value as number;
+                    const burnedValue = payload[0].payload.burned as number;
+                    
                     return (
                       <div className="bg-white p-2 border border-gray-200 rounded shadow-sm">
                         <p className="text-sm font-semibold">{payload[0].payload.date}</p>
                         <p className="text-xs text-green-600">
-                          Consumed: {payload[0].value} cal
+                          Consumed: {calorieValue} cal
                         </p>
                         {isPremium && (
                           <p className="text-xs text-orange-500">
-                            Burned: {payload[0].payload.burned} cal
+                            Burned: {burnedValue} cal
                           </p>
                         )}
                         {isPremium && (
                           <p className="text-xs font-medium border-t border-gray-100 pt-1 mt-1">
-                            Net: {payload[0].value - payload[0].payload.burned} cal
+                            Net: {calorieValue - burnedValue} cal
                           </p>
                         )}
                       </div>
