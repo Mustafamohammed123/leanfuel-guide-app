@@ -37,7 +37,6 @@ const ingredientCategoryMap: Record<string, string> = {
   "garlic": "Vegetables",
   "sweet potato": "Vegetables",
   "sweet potatoes": "Vegetables",
-  "pepper": "Vegetables",
   "bell pepper": "Vegetables",
   
   // Fruits
@@ -91,7 +90,7 @@ const ingredientCategoryMap: Record<string, string> = {
   
   // Spices
   "salt": "Spices",
-  "pepper": "Spices",
+  "black pepper": "Spices", // Changed "pepper" to "black pepper" to avoid duplicate
   "cumin": "Spices",
   "paprika": "Spices",
   "cinnamon": "Spices",
