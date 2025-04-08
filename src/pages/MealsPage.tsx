@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealItem from "@/components/MealItem";
 import SubscriptionBanner from "@/components/SubscriptionBanner";
-import { Search, FilterX, BookOpen } from "lucide-react";
+import { Search, FilterX, BookOpen, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
 // Mock meal data
