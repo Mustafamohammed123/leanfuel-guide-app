@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import BottomNavigation from "@/components/BottomNavigation";
+import NutritionAssistant from "@/components/NutritionAssistant";
 import { Settings, LogOut, CreditCard, Award, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
@@ -15,13 +16,18 @@ const ProfilePage = () => {
   });
 
   const handleUpgrade = () => {
-    toast("Upgrade feature coming soon!");
+    localStorage.setItem('isPremiumUser', 'true');
+    toast.success("You're now a premium user!");
+    window.location.reload();
   };
 
   const weightLost = user.startWeight - user.currentWeight;
   const percentProgress = Math.round(
     (weightLost / (user.startWeight - user.goalWeight)) * 100
   );
+  
+  // Check premium status
+  const isPremiumUser = localStorage.getItem('isPremiumUser') === 'true';
 
   return (
     <div className="leanfuel-container pb-20">
@@ -60,7 +66,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {!user.isPremium && (
+      {!isPremiumUser && (
         <div className="leanfuel-card mb-4 bg-gradient-to-r from-leanfuel-accent to-leanfuel-primary">
           <div className="flex items-center">
             <div className="mr-3">
@@ -116,6 +122,7 @@ const ProfilePage = () => {
       </div>
 
       <BottomNavigation />
+      <NutritionAssistant isPremium={isPremiumUser} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealTracker from "@/components/meals/MealTracker";
 import WeeklyMacroReport from "@/components/meals/WeeklyMacroReport";
+import NutritionAssistant from "@/components/NutritionAssistant";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
@@ -60,6 +61,7 @@ const MealTrackingPage: React.FC = () => {
       </Tabs>
       
       <BottomNavigation />
+      <NutritionAssistant isPremium={isPremiumUser} />
     </div>
   );
 };

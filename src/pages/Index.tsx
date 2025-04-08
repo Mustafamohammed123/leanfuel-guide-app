@@ -8,6 +8,7 @@ import SubscriptionBanner from "@/components/SubscriptionBanner";
 import WeightInput from "@/components/WeightInput";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealTracker from "@/components/meals/MealTracker";
+import NutritionAssistant from "@/components/NutritionAssistant";
 import { toast } from "sonner";
 import { useOnboarding } from "@/contexts/OnboardingContext";
 
@@ -168,6 +169,7 @@ const HomePage = () => {
       </div>
       
       <BottomNavigation />
+      <NutritionAssistant isPremium={isPremiumUser} />
     </div>
   );
 };
