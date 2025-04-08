@@ -13,7 +13,7 @@ const AIInsights = () => {
     {
       id: 2,
       type: 'motivation',
-      message: 'You've consistently logged your meals for 14 days! This habit alone increases your chance of success by 60%.',
+      message: "You've consistently logged your meals for 14 days! This habit alone increases your chance of success by 60%.",
     },
     {
       id: 3,
