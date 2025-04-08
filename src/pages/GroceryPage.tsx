@@ -1,16 +1,18 @@
-
 import { useState, useEffect } from "react";
 import BottomNavigation from "@/components/BottomNavigation";
 import GroceryItem from "@/components/GroceryItem";
+import BannerAd from "@/components/ads/BannerAd";
 import { Plus, ShoppingBag } from "lucide-react";
 import { toast } from "sonner";
 import { GroceryItem as GroceryItemType } from "@/utils/groceryListUtils";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 const GroceryPage = () => {
   const [groceryItems, setGroceryItems] = useState<GroceryItemType[]>([]);
   const [newItemName, setNewItemName] = useState("");
   const [newItemCategory, setNewItemCategory] = useState("Vegetables");
   const [showAddForm, setShowAddForm] = useState(false);
+  const { isPremium } = useSubscription();
   
   // Categories
   const categories = ["Vegetables", "Fruits", "Meat", "Dairy", "Grains", "Oils", "Spices", "Other"];
@@ -96,6 +98,8 @@ const GroceryPage = () => {
         <h1 className="text-2xl font-bold text-leanfuel-dark">Grocery List</h1>
         <p className="text-gray-500">Your shopping essentials</p>
       </header>
+
+      {!isPremium && <BannerAd className="mb-4" />}
 
       {groceryItems.length > 0 ? (
         <div className="space-y-4">

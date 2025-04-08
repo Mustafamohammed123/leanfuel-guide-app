@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealTracker from "@/components/meals/MealTracker";
 import WeeklyMacroReport from "@/components/meals/WeeklyMacroReport";
@@ -7,9 +7,19 @@ import NutritionAssistant from "@/components/NutritionAssistant";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSubscription } from "@/contexts/SubscriptionContext";
 import PremiumFeature from "@/components/subscription/PremiumFeature";
+import BannerAd from "@/components/ads/BannerAd";
+import InterstitialAd from "@/components/ads/InterstitialAd";
 
 const MealTrackingPage: React.FC = () => {
   const { isPremium, setIsModalOpen } = useSubscription();
+  const [showInterstitial, setShowInterstitial] = useState(false);
+  
+  // Function to trigger interstitial ad when a full day of meals is logged
+  const handleDailyLogComplete = () => {
+    if (!isPremium) {
+      setShowInterstitial(true);
+    }
+  };
   
   return (
     <div className="leanfuel-container pb-20">
@@ -18,6 +28,8 @@ const MealTrackingPage: React.FC = () => {
         <p className="text-gray-500">Log your meals and track your nutrition</p>
       </header>
       
+      {!isPremium && <BannerAd className="mb-4" />}
+      
       <Tabs defaultValue="daily" className="mb-4">
         <TabsList className="w-full grid grid-cols-2 mb-4">
           <TabsTrigger value="daily">Daily Log</TabsTrigger>
@@ -25,7 +37,10 @@ const MealTrackingPage: React.FC = () => {
         </TabsList>
         
         <TabsContent value="daily">
-          <MealTracker isPremium={isPremium} />
+          <MealTracker 
+            isPremium={isPremium} 
+            onDailyLogComplete={handleDailyLogComplete}
+          />
         </TabsContent>
         
         <TabsContent value="weekly">
@@ -53,6 +68,12 @@ const MealTrackingPage: React.FC = () => {
       
       <BottomNavigation />
       <NutritionAssistant isPremium={isPremium} />
+      
+      {/* Interstitial ad shown after completing a full day's meal log */}
+      <InterstitialAd 
+        isOpen={showInterstitial} 
+        onClose={() => setShowInterstitial(false)} 
+      />
     </div>
   );
 };

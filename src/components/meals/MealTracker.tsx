@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { addDays, format } from "date-fns";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -11,9 +10,13 @@ import { FoodItem, FoodLog, getMealLog, saveMealLog } from "@/utils/foodLogUtils
 
 interface MealTrackerProps {
   isPremium?: boolean;
+  onDailyLogComplete?: () => void;
 }
 
-const MealTracker: React.FC<MealTrackerProps> = ({ isPremium = false }) => {
+const MealTracker: React.FC<MealTrackerProps> = ({ 
+  isPremium = false, 
+  onDailyLogComplete 
+}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [foodLog, setFoodLog] = useState<FoodLog>({
     foods: [],
@@ -42,6 +45,12 @@ const MealTracker: React.FC<MealTrackerProps> = ({ isPremium = false }) => {
     };
     setFoodLog(updatedLog);
     saveMealLog(updatedLog);
+    
+    // Check if this completes a full day's logging (3 or more meals)
+    // This is a simple heuristic - in a real app, you might have more complex logic
+    if (updatedLog.foods.length >= 3 && onDailyLogComplete) {
+      onDailyLogComplete();
+    }
   };
 
   const handleRemoveFood = (id: string) => {
