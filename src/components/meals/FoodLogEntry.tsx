@@ -8,13 +8,14 @@ import { toast } from "sonner";
 import { Plus, Barcode } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { FoodItem } from "@/utils/foodLogUtils";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 interface FoodLogEntryProps {
   onAddFood: (food: FoodItem) => void;
-  isPremium?: boolean;
 }
 
-const FoodLogEntry: React.FC<FoodLogEntryProps> = ({ onAddFood, isPremium = false }) => {
+const FoodLogEntry: React.FC<FoodLogEntryProps> = ({ onAddFood }) => {
+  const { isPremium, setIsModalOpen } = useSubscription();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newFood, setNewFood] = useState<FoodItem>({
     id: "",
@@ -69,7 +70,7 @@ const FoodLogEntry: React.FC<FoodLogEntryProps> = ({ onAddFood, isPremium = fals
       toast("Barcode scanner is a premium feature", {
         action: {
           label: "Upgrade",
-          onClick: () => toast("Upgrade feature coming soon!"),
+          onClick: () => setIsModalOpen(true),
         },
       });
       return;

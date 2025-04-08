@@ -4,6 +4,7 @@ import BottomNavigation from "@/components/BottomNavigation";
 import NutritionAssistant from "@/components/NutritionAssistant";
 import { Settings, LogOut, CreditCard, Award, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 const ProfilePage = () => {
   const [user] = useState({
@@ -12,22 +13,14 @@ const ProfilePage = () => {
     startWeight: 85,
     currentWeight: 78.6,
     goalWeight: 75,
-    isPremium: false,
   });
 
-  const handleUpgrade = () => {
-    localStorage.setItem('isPremiumUser', 'true');
-    toast.success("You're now a premium user!");
-    window.location.reload();
-  };
+  const { isPremium, setIsModalOpen } = useSubscription();
 
   const weightLost = user.startWeight - user.currentWeight;
   const percentProgress = Math.round(
     (weightLost / (user.startWeight - user.goalWeight)) * 100
   );
-  
-  // Check premium status
-  const isPremiumUser = localStorage.getItem('isPremiumUser') === 'true';
 
   return (
     <div className="leanfuel-container pb-20">
@@ -66,7 +59,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {!isPremiumUser && (
+      {!isPremium && (
         <div className="leanfuel-card mb-4 bg-gradient-to-r from-leanfuel-accent to-leanfuel-primary">
           <div className="flex items-center">
             <div className="mr-3">
@@ -79,7 +72,7 @@ const ProfilePage = () => {
               </p>
             </div>
             <button
-              onClick={handleUpgrade}
+              onClick={() => setIsModalOpen(true)}
               className="bg-white text-leanfuel-accent px-3 py-1.5 rounded-lg text-sm font-medium"
             >
               Upgrade
@@ -122,7 +115,7 @@ const ProfilePage = () => {
       </div>
 
       <BottomNavigation />
-      <NutritionAssistant isPremium={isPremiumUser} />
+      <NutritionAssistant isPremium={isPremium} />
     </div>
   );
 };

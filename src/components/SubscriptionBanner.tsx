@@ -1,11 +1,10 @@
 
 import { Star } from "lucide-react";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
-interface SubscriptionBannerProps {
-  onUpgrade: () => void;
-}
+const SubscriptionBanner = () => {
+  const { setIsModalOpen } = useSubscription();
 
-const SubscriptionBanner = ({ onUpgrade }: SubscriptionBannerProps) => {
   return (
     <div className="bg-gradient-to-r from-leanfuel-accent to-leanfuel-primary rounded-lg shadow-md p-4 mb-4">
       <div className="flex items-start">
@@ -18,7 +17,7 @@ const SubscriptionBanner = ({ onUpgrade }: SubscriptionBannerProps) => {
             Get custom meal plans, detailed nutritional analysis, and more.
           </p>
           <button
-            onClick={onUpgrade}
+            onClick={() => setIsModalOpen(true)}
             className="bg-white text-leanfuel-accent font-medium text-sm py-1.5 px-3 rounded-lg"
           >
             Upgrade Now

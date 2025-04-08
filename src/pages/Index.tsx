@@ -12,6 +12,7 @@ import NotificationsWidget from "@/components/NotificationsWidget";
 import { BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 const mockWeightData = [
   { date: "2025-03-01", weight: 82.5 },
@@ -52,12 +53,12 @@ const mockMealSuggestions = [
 
 const HomePage = () => {
   const { data: onboardingData } = useOnboarding();
+  const { isPremium, setIsModalOpen } = useSubscription();
   const navigate = useNavigate();
   const [weightGoal, setWeightGoal] = useState(75);
   const [calorieGoal, setCalorieGoal] = useState(2000);
   const [caloriesConsumed, setCaloriesConsumed] = useState(1250);
   const [weightData, setWeightData] = useState(mockWeightData);
-  const [isPremiumUser, setIsPremiumUser] = useState(false);
   
   useEffect(() => {
     if (!onboardingData.completed) {
@@ -70,9 +71,6 @@ const HomePage = () => {
       if (onboardingData.calorieGoal) {
         setCalorieGoal(onboardingData.calorieGoal);
       }
-      
-      const premiumStatus = localStorage.getItem('isPremiumUser') === 'true';
-      setIsPremiumUser(premiumStatus);
     }
   }, [onboardingData, navigate]);
   
@@ -88,18 +86,12 @@ const HomePage = () => {
     toast.success("Weight updated successfully!");
   };
   
-  const handleUpgrade = () => {
-    localStorage.setItem('isPremiumUser', 'true');
-    setIsPremiumUser(true);
-    toast.success("You're now a premium user!");
-  };
-  
   const handleMealClick = (meal: any) => {
-    if (meal.isPremium && !isPremiumUser) {
+    if (meal.isPremium && !isPremium) {
       toast("This is a premium meal. Upgrade to unlock!", {
         action: {
           label: "Upgrade",
-          onClick: handleUpgrade
+          onClick: () => setIsModalOpen(true)
         }
       });
     } else {
@@ -118,10 +110,10 @@ const HomePage = () => {
         <p className="text-gray-500">Your journey to a healthier you</p>
       </header>
       
-      {!isPremiumUser && <SubscriptionBanner onUpgrade={handleUpgrade} />}
+      {!isPremium && <SubscriptionBanner />}
       
       <div className="my-4">
-        <MealTracker isPremium={isPremiumUser} />
+        <MealTracker isPremium={isPremium} />
       </div>
       
       <CalorieCounter dailyGoal={calorieGoal} consumed={caloriesConsumed} />
@@ -181,7 +173,7 @@ const HomePage = () => {
       </div>
       
       <BottomNavigation />
-      <NutritionAssistant isPremium={isPremiumUser} />
+      <NutritionAssistant isPremium={isPremium} />
     </div>
   );
 };

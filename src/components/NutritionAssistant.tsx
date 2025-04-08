@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { AlertCircle, Bot, Send, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { toast } from "sonner";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
 interface Message {
   id: string;
@@ -14,11 +14,8 @@ interface Message {
   timestamp: Date;
 }
 
-interface NutritionAssistantProps {
-  isPremium: boolean;
-}
-
-const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium }) => {
+const NutritionAssistant: React.FC = () => {
+  const { isPremium, setIsModalOpen } = useSubscription();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -59,12 +56,7 @@ const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium }) =>
     if (input.trim() === "") return;
     
     if (!isPremium) {
-      toast("This feature is only available for premium users", {
-        action: {
-          label: "Upgrade",
-          onClick: handleUpgrade,
-        },
-      });
+      setIsModalOpen(true);
       return;
     }
 
@@ -111,13 +103,6 @@ const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium }) =>
     }
   };
 
-  const handleUpgrade = () => {
-    // For demo purposes, set premium status
-    localStorage.setItem('isPremiumUser', 'true');
-    toast.success("You're now a premium user!");
-    window.location.reload();
-  };
-
   return (
     <>
       {!isOpen && (
@@ -148,7 +133,7 @@ const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium }) =>
                   Start chatting
                 </Button>
               ) : (
-                <Button className="w-full" onClick={handleUpgrade}>
+                <Button className="w-full" onClick={() => setIsModalOpen(true)}>
                   Upgrade to Pro
                 </Button>
               )}
@@ -178,7 +163,7 @@ const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium }) =>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
                     This feature is only available for premium users.
-                    <Button variant="link" className="p-0 h-auto ml-2" onClick={handleUpgrade}>
+                    <Button variant="link" className="p-0 h-auto ml-2" onClick={() => setIsModalOpen(true)}>
                       Upgrade to Pro
                     </Button>
                   </AlertDescription>
@@ -241,7 +226,7 @@ const NutritionAssistant: React.FC<NutritionAssistantProps> = ({ isPremium }) =>
                 </Button>
               </div>
               {!isPremium && (
-                <Button variant="outline" className="w-full mt-2" onClick={handleUpgrade}>
+                <Button variant="outline" className="w-full mt-2" onClick={() => setIsModalOpen(true)}>
                   Upgrade to Pro
                 </Button>
               )}

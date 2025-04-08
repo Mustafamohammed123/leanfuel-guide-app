@@ -1,27 +1,15 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import BottomNavigation from "@/components/BottomNavigation";
 import MealTracker from "@/components/meals/MealTracker";
 import WeeklyMacroReport from "@/components/meals/WeeklyMacroReport";
 import NutritionAssistant from "@/components/NutritionAssistant";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
+import { useSubscription } from "@/contexts/SubscriptionContext";
+import PremiumFeature from "@/components/subscription/PremiumFeature";
 
 const MealTrackingPage: React.FC = () => {
-  const [isPremiumUser, setIsPremiumUser] = useState(false);
-  
-  useEffect(() => {
-    // Check premium status
-    const premiumStatus = localStorage.getItem('isPremiumUser') === 'true';
-    setIsPremiumUser(premiumStatus);
-  }, []);
-  
-  const handleUpgrade = () => {
-    // For demo purposes, set premium status
-    localStorage.setItem('isPremiumUser', 'true');
-    setIsPremiumUser(true);
-    toast.success("You're now a premium user!");
-  };
+  const { isPremium, setIsModalOpen } = useSubscription();
   
   return (
     <div className="leanfuel-container pb-20">
@@ -37,31 +25,34 @@ const MealTrackingPage: React.FC = () => {
         </TabsList>
         
         <TabsContent value="daily">
-          <MealTracker isPremium={isPremiumUser} />
+          <MealTracker isPremium={isPremium} />
         </TabsContent>
         
         <TabsContent value="weekly">
-          <WeeklyMacroReport isPremium={isPremiumUser} />
-          
-          {!isPremiumUser && (
-            <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-100">
-              <h3 className="font-bold text-center mb-2">Upgrade to Premium</h3>
-              <p className="text-sm text-center mb-3">
-                Get access to weekly macro reports, barcode scanning, and one-tap meal logging
-              </p>
-              <button
-                onClick={handleUpgrade}
-                className="w-full py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-md"
-              >
-                Upgrade Now
-              </button>
-            </div>
-          )}
+          <PremiumFeature 
+            message="Unlock Weekly Nutrition Reports"
+            fallback={
+              <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-100">
+                <h3 className="font-bold text-center mb-2">Upgrade to Premium</h3>
+                <p className="text-sm text-center mb-3">
+                  Get access to weekly macro reports, barcode scanning, and one-tap meal logging
+                </p>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-full py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-md"
+                >
+                  Upgrade Now
+                </button>
+              </div>
+            }
+          >
+            <WeeklyMacroReport isPremium={isPremium} />
+          </PremiumFeature>
         </TabsContent>
       </Tabs>
       
       <BottomNavigation />
-      <NutritionAssistant isPremium={isPremiumUser} />
+      <NutritionAssistant isPremium={isPremium} />
     </div>
   );
 };

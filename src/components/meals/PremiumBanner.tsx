@@ -1,12 +1,11 @@
 
 import React from "react";
 import { Star } from "lucide-react";
+import { useSubscription } from "@/contexts/SubscriptionContext";
 
-interface PremiumBannerProps {
-  onUpgrade: () => void;
-}
+const PremiumBanner: React.FC = () => {
+  const { setIsModalOpen } = useSubscription();
 
-const PremiumBanner: React.FC<PremiumBannerProps> = ({ onUpgrade }) => {
   return (
     <div className="bg-gradient-to-r from-leanfuel-accent to-leanfuel-primary rounded-lg shadow-md p-4 mt-6">
       <div className="flex items-start">
@@ -19,7 +18,7 @@ const PremiumBanner: React.FC<PremiumBannerProps> = ({ onUpgrade }) => {
             Get specialized meal plans, detailed nutrition guides, and personalized recipes.
           </p>
           <button
-            onClick={onUpgrade}
+            onClick={() => setIsModalOpen(true)}
             className="bg-white text-leanfuel-accent font-medium text-sm py-1.5 px-3 rounded-lg"
           >
             Upgrade Now

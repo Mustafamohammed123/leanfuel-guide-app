@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
+import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
+import SubscriptionModal from "@/components/subscription/SubscriptionModal";
+import WeeklyPromotion from "@/components/subscription/WeeklyPromotion";
 import Index from "./pages/Index";
 import MealsPage from "./pages/MealsPage";
 import MealPlanPage from "./pages/MealPlanPage";
@@ -26,26 +29,30 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <OnboardingProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/onboarding" element={<OnboardingPage />} />
-              <Route path="/" element={<Index />} />
-              <Route path="/meals" element={<MealsPage />} />
-              <Route path="/meal-plans" element={<MealPlanPage />} />
-              <Route path="/meal-tracking" element={<MealTrackingPage />} />
-              <Route path="/grocery" element={<GroceryPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/progress" element={<ProgressPage />} />
-              <Route path="/learning" element={<LearningHubPage />} />
-              <Route path="/learning/:articleId" element={<ArticleDetailPage />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <SubscriptionProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <SubscriptionModal />
+            <WeeklyPromotion />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/onboarding" element={<OnboardingPage />} />
+                <Route path="/" element={<Index />} />
+                <Route path="/meals" element={<MealsPage />} />
+                <Route path="/meal-plans" element={<MealPlanPage />} />
+                <Route path="/meal-tracking" element={<MealTrackingPage />} />
+                <Route path="/grocery" element={<GroceryPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/progress" element={<ProgressPage />} />
+                <Route path="/learning" element={<LearningHubPage />} />
+                <Route path="/learning/:articleId" element={<ArticleDetailPage />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </SubscriptionProvider>
       </OnboardingProvider>
     </QueryClientProvider>
   );
