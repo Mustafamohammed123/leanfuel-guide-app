@@ -1,14 +1,6 @@
 
-import React, { useState } from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Clock, Utensils, Plus, Minus, ChevronRight } from "lucide-react";
-import { toast } from "sonner";
-
 // Types for our meal plan data
-interface Meal {
+export interface Meal {
   name: string;
   calories: number;
   prepTime: number;
@@ -16,187 +8,15 @@ interface Meal {
   instructions?: string[];
 }
 
-interface DayMeals {
+export interface DayMeals {
   breakfast: Meal;
   lunch: Meal;
   dinner: Meal;
   snacks: Meal[];
 }
 
-interface MealPlanDetailsProps {
-  plan: {
-    id: string;
-    title: string;
-    category: string;
-  };
-  onBack: () => void;
-}
-
-// Map to store meal plan data by plan ID
-const MEAL_PLAN_DATA: Record<string, DayMeals[]> = {
-  "clean-eating": generateCleanEatingPlan(),
-  "low-calorie": generateLowCaloriePlan(),
-  "high-protein": generateHighProteinPlan(),
-};
-
-const MealPlanDetails: React.FC<MealPlanDetailsProps> = ({ plan, onBack }) => {
-  const [activeDay, setActiveDay] = useState("day1");
-  const mealPlanData = MEAL_PLAN_DATA[plan.id] || [];
-  
-  const handleSaveMeal = (mealName: string) => {
-    toast.success(`${mealName} added to your meal plan`);
-  };
-  
-  const formatDayLabel = (index: number) => {
-    return `Day ${index + 1}`;
-  };
-
-  return (
-    <div className="leanfuel-container pb-20">
-      <header className="pt-6 pb-4">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="mb-2 -ml-2" 
-          onClick={onBack}
-        >
-          <ArrowLeft size={18} className="mr-1" />
-          Back to plans
-        </Button>
-        <h1 className="text-xl font-bold text-leanfuel-dark">{plan.title}</h1>
-        <p className="text-gray-500">7-day meal rotation plan</p>
-      </header>
-      
-      <Tabs 
-        value={activeDay} 
-        onValueChange={setActiveDay}
-        className="mb-4"
-      >
-        <TabsList className="grid grid-cols-7 w-full overflow-x-auto rounded-lg">
-          {Array.from({ length: 7 }).map((_, index) => (
-            <TabsTrigger 
-              key={`day${index + 1}`} 
-              value={`day${index + 1}`}
-              className="text-xs py-2"
-            >
-              {formatDayLabel(index)}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        
-        {mealPlanData.map((dayPlan, dayIndex) => (
-          <TabsContent key={`day${dayIndex + 1}`} value={`day${dayIndex + 1}`} className="space-y-4">
-            <MealSection 
-              title="Breakfast" 
-              meal={dayPlan.breakfast} 
-              onSave={handleSaveMeal}
-            />
-            
-            <MealSection 
-              title="Lunch" 
-              meal={dayPlan.lunch} 
-              onSave={handleSaveMeal}
-            />
-            
-            <MealSection 
-              title="Dinner" 
-              meal={dayPlan.dinner} 
-              onSave={handleSaveMeal}
-            />
-            
-            {dayPlan.snacks.length > 0 && (
-              <div>
-                <h3 className="font-medium text-sm text-gray-500 mb-2">Optional Snacks</h3>
-                {dayPlan.snacks.map((snack, index) => (
-                  <MealSection 
-                    key={`snack-${index}`}
-                    title={`Snack ${index + 1}`} 
-                    meal={snack} 
-                    onSave={handleSaveMeal}
-                    isSnack
-                  />
-                ))}
-              </div>
-            )}
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
-  );
-};
-
-interface MealSectionProps {
-  title: string;
-  meal: Meal;
-  onSave: (name: string) => void;
-  isSnack?: boolean;
-}
-
-const MealSection: React.FC<MealSectionProps> = ({ 
-  title, 
-  meal, 
-  onSave,
-  isSnack = false 
-}) => {
-  return (
-    <div className={`leanfuel-card ${isSnack ? 'bg-gray-50' : ''}`}>
-      <div className="flex justify-between items-start mb-2">
-        <div>
-          <h3 className={`font-medium ${isSnack ? 'text-sm' : 'text-base'}`}>{title}</h3>
-          <p className="font-medium text-leanfuel-dark">{meal.name}</p>
-        </div>
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="h-8 w-8 p-0" 
-          onClick={() => onSave(meal.name)}
-        >
-          <Plus size={18} />
-        </Button>
-      </div>
-      
-      <div className="flex items-center text-xs text-gray-500 mb-3">
-        <Utensils size={12} className="mr-1" />
-        <span>{meal.calories} kcal</span>
-        <Clock size={12} className="ml-3 mr-1" />
-        <span>{meal.prepTime} min</span>
-      </div>
-      
-      <Accordion type="single" collapsible className="w-full border-t pt-2">
-        <AccordionItem value="ingredients" className="border-b-0">
-          <AccordionTrigger className="py-2 text-sm font-medium">
-            Ingredients
-          </AccordionTrigger>
-          <AccordionContent>
-            <ul className="list-disc pl-5 text-sm text-gray-600 space-y-1">
-              {meal.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))}
-            </ul>
-          </AccordionContent>
-        </AccordionItem>
-        
-        {meal.instructions && (
-          <AccordionItem value="instructions" className="border-b-0">
-            <AccordionTrigger className="py-2 text-sm font-medium">
-              Instructions
-            </AccordionTrigger>
-            <AccordionContent>
-              <ol className="list-decimal pl-5 text-sm text-gray-600 space-y-1">
-                {meal.instructions.map((step, index) => (
-                  <li key={index}>{step}</li>
-                ))}
-              </ol>
-            </AccordionContent>
-          </AccordionItem>
-        )}
-      </Accordion>
-    </div>
-  );
-};
-
 // Helper function to generate Clean Eating meal plan
-function generateCleanEatingPlan(): DayMeals[] {
+export function generateCleanEatingPlan(): DayMeals[] {
   return [
     // Day 1
     {
@@ -584,7 +404,7 @@ function generateCleanEatingPlan(): DayMeals[] {
 }
 
 // Helper function to generate Low Calorie meal plan
-function generateLowCaloriePlan(): DayMeals[] {
+export function generateLowCaloriePlan(): DayMeals[] {
   return [
     // Day 1
     {
@@ -642,8 +462,7 @@ function generateLowCaloriePlan(): DayMeals[] {
         }
       ]
     },
-    // Additional days would follow similar pattern
-    // Including just one more day for brevity
+    // Including the remaining days with simplified structure for brevity
     {
       breakfast: {
         name: "Overnight Chia Pudding",
@@ -972,7 +791,7 @@ function generateLowCaloriePlan(): DayMeals[] {
 }
 
 // Helper function to generate High Protein meal plan
-function generateHighProteinPlan(): DayMeals[] {
+export function generateHighProteinPlan(): DayMeals[] {
   return [
     // Day 1
     {
@@ -1032,8 +851,7 @@ function generateHighProteinPlan(): DayMeals[] {
         }
       ]
     },
-    // Additional days would follow similar pattern
-    // Including just one more day for brevity
+    // Including remaining days with simplified structure for brevity
     {
       breakfast: {
         name: "Protein Smoothie Bowl",
@@ -1371,4 +1189,9 @@ function generateHighProteinPlan(): DayMeals[] {
   ];
 }
 
-export default MealPlanDetails;
+// Map to store meal plan data by plan ID
+export const MEAL_PLAN_DATA: Record<string, DayMeals[]> = {
+  "clean-eating": generateCleanEatingPlan(),
+  "low-calorie": generateLowCaloriePlan(),
+  "high-protein": generateHighProteinPlan(),
+};
