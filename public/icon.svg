@@ -1,0 +1,13 @@
+
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="248" fill="white" stroke="#3BBAA1" stroke-width="16"/>
+  
+  <!-- Plate -->
+  <ellipse cx="256" cy="280" rx="160" ry="40" fill="#F5F5F5" stroke="#3BBAA1" stroke-width="8"/>
+  <ellipse cx="256" cy="280" rx="120" ry="30" fill="white" stroke="#3BBAA1" stroke-width="4"/>
+  
+  <!-- Flame -->
+  <path d="M256 80C256 80 200 140 200 180C200 220 220 240 256 240C292 240 312 220 312 180C312 140 256 80 256 80Z" fill="#FF7A50"/>
+  <path d="M256 100C256 100 220 150 220 180C220 210 235 225 256 225C277 225 292 210 292 180C292 150 256 100 256 100Z" fill="#FFB627"/>
+</svg>
